@@ -34,3 +34,20 @@ Here, the ref option tells Mongoose which model to use during population.
 #### Note: 
 ```ObjectId, String, Number, Buffer``` all are valid types for refs. However, you should use ObjectUd unless you want to use it for advanced queries.
 
+<h2>Populating</h2>
+
+```typescript
+const book = await Book.findOne({ name: 'Harry Potter' }).populate('author');
+console.log(book.author) // returns author object
+```
+Similarly,
+```typescript
+Suppose 
+const author = await Author.findOne({ name: 'John Doe' }); 
+console.log(author.books) // returns an array of book IDs 
+const authorWithBooks = await Author.findOne({ name: 'John Doe' });
+console.log(author.books) // returns an array of book objects
+```
+
+
+More details : https://mongoosejs.com/docs/populate.html#populate_multiple_documents
