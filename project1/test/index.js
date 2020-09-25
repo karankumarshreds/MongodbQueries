@@ -1,11 +1,12 @@
 const mongoose = require('mongoose')
-const User = require('../models/user')
-const create = require('./create.test')
 require('dotenv').config()
+
+const create = require('./create.test')
+const get = require('./get.test')
 
 const connectDB = async () => {
     try {
-        await mongoose.connect(process.env.MONGO_STRING, {
+        await mongoose.connect("mongodb://localhost:30039/auth", {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             useCreateIndex: true
@@ -20,7 +21,8 @@ connectDB()
 
 
 const main = async () => {
-    await create()
+    // await create()
+    await get()
 
     // deletes all the users 
     // await User.deleteMany({ name: "Joe" })
@@ -33,5 +35,8 @@ const main = async () => {
 
     // this updates the first entry 
     // await User.updateOne({ name: "Jonny" })
+
+    // this increments the post count by 1 for all the users with name Joe 
+    // await User.updateMany({ name: "Joe" }, { $inc: { postCount: 1 } })
 }
 main()
