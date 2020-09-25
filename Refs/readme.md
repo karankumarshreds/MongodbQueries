@@ -20,6 +20,7 @@ const authorSchema = new mongoose.Schema({
 
 const bookSchema = new mongoose.Schema({
   name: { type: String, required: true },
+  price: { type: Number, required: true }, 
   author: { 
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'Author'
@@ -42,12 +43,32 @@ console.log(book.author) // returns author object
 ```
 Similarly,
 ```typescript
-Suppose 
 const author = await Author.findOne({ name: 'John Doe' }); 
 console.log(author.books) // returns an array of book IDs 
-const authorWithBooks = await Author.findOne({ name: 'John Doe' });
+const authorWithBooks = await Author.findOne({ name: 'John Doe' }).populate('books');
 console.log(author.books) // returns an array of book objects
 ```
+<h2>Field Selection</h2>
 
+What if we only want to populate other document's specific fields? 
+We can do that by passing in **field name** as a second argument to the populate method.
+```typescript
+const author = await Author.findOne({ name: 'John Doe' }); 
+console.log(author.books) // returns an array of book IDs 
+const authorWithBooks = await Author.findOne({ name: 'John Doe' }).populate('books', 'name')
+console.log(author.books) // returns an array of book objects with their names
+```
+<h2>Advance Queries</h2>
+
+What if we want to query books by an Author "John Doe" and **only** populate **names and no ID who's price is less than 10**?
+
+```typescript
+const author = await Author.findOne({ name: "John Doe" })
+                    .populate({
+                      path: 'books',
+                      match: {price: { $gte: 10 }},
+                      select: 'name -_id'
+                    })
+```
 
 More details : https://mongoosejs.com/docs/populate.html#populate_multiple_documents
