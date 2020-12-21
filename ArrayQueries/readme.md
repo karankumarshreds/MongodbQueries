@@ -4,7 +4,7 @@ Let's suppose we need to query all the chats which has users: ['a', 'b']:
 ```javascript
 const chats = await Chat.find({
       users: {
-        $all: [receiver.id, sender.id],
+        $all: ['a', 'b'], // order does not matter 
       },
     });
 ```
