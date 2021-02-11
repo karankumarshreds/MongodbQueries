@@ -27,3 +27,9 @@ To delete a database:
 use user
 db.dropDatabase()
 ```
+
+To delete a collection: 
+
+```
+db.users.drop()
+```
