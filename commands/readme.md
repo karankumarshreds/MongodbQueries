@@ -1,3 +1,5 @@
+## Creation
+
 To show dbs: 
 
 ```
@@ -14,4 +16,14 @@ To add collections and users to it:
 
 ```
 db.user.insertOne({ name: "karan" })
+```
+
+
+## Deletion
+
+To delete a database: 
+
+```
+use user
+db.dropDatabase()
 ```
