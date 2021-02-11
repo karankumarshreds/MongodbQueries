@@ -33,3 +33,11 @@ To delete a collection:
 ```
 db.users.drop()
 ```
+
+## Import 
+
+```
+mongoimport tv-shows.json -d movieData -c movies --jsonArray --drop
+```
+
+Where ```movieData``` is the database name, ```movies``` is the collection name and ```--drop``` tells to override the existing db/collection.
