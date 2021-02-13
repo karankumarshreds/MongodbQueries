@@ -105,4 +105,16 @@ db.movies.find({
 
 You can also use _$nor, $and or $nand_.
 
+# ELEMENT OPERATORS
+
+## $exist or $type
+
+### To find movies for which field runtime exists
+
+```js
+db.movies.find({
+  runtime: { $exists: true },
+});
+```
+
 src: https://docs.mongodb.com/manual/reference/operator/query/
