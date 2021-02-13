@@ -2,7 +2,9 @@
 [
   {
     name: 'batman',
-    genres: ['action', 'suspense'],
+    details: {
+      genres: ['action', 'suspense'],
+    },
     runtime: 90,
     rating: {
       average: 9,
@@ -10,7 +12,9 @@
   },
   {
     name: 'thor',
-    genres: ['action', 'comedy'],
+    details: {
+      genres: ['action', 'comedy'],
+    },
     runtime: 50,
     rating: {
       average: 8,
@@ -18,7 +22,9 @@
   },
   {
     name: 'lord of the rings',
-    genres: ['adventure', 'suspense'],
+    details: {
+      genres: ['adventure', 'suspense'],
+    },
     runtime: 110,
     rating: {
       average: 8.9,
@@ -37,6 +43,18 @@ db.movies.find({ runtime: { $lt: 60 } });
 
 ```js
 db.movies.find({ 'rating.average': { $gt: 8.5 } });
+```
+
+## To find all movies who's genres contain 'adventure'
+
+```js
+db.movies.find({
+  'details.genres': {
+    $elemMatch: {
+      $eq: 'adventure',
+    },
+  },
+});
 ```
 
 src: https://docs.mongodb.com/manual/reference/operator/query/
