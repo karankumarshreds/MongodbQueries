@@ -37,13 +37,13 @@
 
 ## $lt or $gt
 
-### To find all the movies who's length is less than 60 mins:
+#### To find all the movies who's length is less than 60 mins:
 
 ```js
 db.movies.find({ runtime: { $lt: 60 } });
 ```
 
-### To find all the movies who's rating is greater than 8.5
+#### To find all the movies who's rating is greater than 8.5
 
 ```js
 db.movies.find({ 'rating.average': { $gt: 8.5 } });
@@ -51,7 +51,7 @@ db.movies.find({ 'rating.average': { $gt: 8.5 } });
 
 ## $elemMatch
 
-### To find all movies who's genres contain 'adventure'
+#### To find all movies who's genres contain 'adventure'
 
 ```js
 db.movies.find({
@@ -71,7 +71,7 @@ db.movies.find({
 
 ## $in or $nin
 
-### To find movies who's runtime is either 60 or 90
+#### To find movies who's runtime is either 60 or 90
 
 ```js
 db.movies.find({
@@ -95,7 +95,7 @@ db.movies.find({
 
 ## $or and $nor
 
-### To find movies who's genres contains comedy OR whos rating is less than 8.5
+#### To find movies who's genres contains comedy OR whos rating is less than 8.5
 
 ```js
 db.movies.find({
@@ -109,12 +109,23 @@ You can also use _$nor, $and or $nand_.
 
 ## $exist or $type
 
-### To find movies for which field runtime exists
+#### To find movies for which field runtime exists
 
 ```js
 db.movies.find({
   runtime: { $exists: true },
 });
+```
+
+# EVALUATE OPERATORS
+
+## $regex or $expr
+
+#### To find movies for which the genres consists "act"
+
+```js
+// option === i is for ignore case
+db.movies.find({ 'details.genres': { $regex: 'act', $option: 'i' } });
 ```
 
 src: https://docs.mongodb.com/manual/reference/operator/query/
