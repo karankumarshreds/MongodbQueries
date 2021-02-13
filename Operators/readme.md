@@ -33,19 +33,23 @@
 ];
 ```
 
-## To find all the movies who's length is less than 60 mins:
+# $lt or $gt
+
+### To find all the movies who's length is less than 60 mins:
 
 ```js
 db.movies.find({ runtime: { $lt: 60 } });
 ```
 
-## To find all the movies who's rating is greater than 8.5
+### To find all the movies who's rating is greater than 8.5
 
 ```js
 db.movies.find({ 'rating.average': { $gt: 8.5 } });
 ```
 
-## To find all movies who's genres contain 'adventure'
+# $elemMatch
+
+### To find all movies who's genres contain 'adventure'
 
 ```js
 db.movies.find({
@@ -63,12 +67,24 @@ db.movies.find({
 });
 ```
 
-## To find movies who's runtime is either 60 or 90
+# $in or $nin
+
+### To find movies who's runtime is either 60 or 90
 
 ```js
 db.movies.find({
   runtime: {
     $in: [60, 90],
+  },
+});
+```
+
+## To find movies who's runtime is neither 60 or 90
+
+```js
+db.movies.find({
+  runtime: {
+    $nin: [60, 90],
   },
 });
 ```
