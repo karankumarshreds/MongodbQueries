@@ -55,6 +55,22 @@ db.movies.find({
     },
   },
 });
+
+// OR
+
+db.movies.find({
+  'details.genres': 'adventure',
+});
+```
+
+## To find movies who's runtime is either 60 or 90
+
+```js
+db.movies.find({
+  runtime: {
+    $in: [60, 90],
+  },
+});
 ```
 
 src: https://docs.mongodb.com/manual/reference/operator/query/
