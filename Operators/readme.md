@@ -33,7 +33,9 @@
 ];
 ```
 
-# $lt or $gt
+# QUERY OPERATORS
+
+## $lt or $gt
 
 ### To find all the movies who's length is less than 60 mins:
 
@@ -47,7 +49,7 @@ db.movies.find({ runtime: { $lt: 60 } });
 db.movies.find({ 'rating.average': { $gt: 8.5 } });
 ```
 
-# $elemMatch
+## $elemMatch
 
 ### To find all movies who's genres contain 'adventure'
 
@@ -67,7 +69,7 @@ db.movies.find({
 });
 ```
 
-# $in or $nin
+## $in or $nin
 
 ### To find movies who's runtime is either 60 or 90
 
@@ -88,5 +90,19 @@ db.movies.find({
   },
 });
 ```
+
+# LOGICAL OPERATORS
+
+## $or and $nor
+
+### To find movies who's genres contains comedy OR whos rating is less than 8.5
+
+```js
+db.movies.find({
+  $or: [{ 'details.genres': 'comedy' }, { 'rating.average': { $lt: 8.5 } }],
+});
+```
+
+You can also use _$nor, $and or $nand_.
 
 src: https://docs.mongodb.com/manual/reference/operator/query/
