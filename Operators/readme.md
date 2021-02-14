@@ -8,6 +8,7 @@
     runtime: 90,
     rating: {
       average: 9,
+      dislikes: 2,
     },
   },
   {
@@ -17,7 +18,8 @@
     },
     runtime: 50,
     rating: {
-      average: 8,
+      average: 7,
+      dislikes: 8,
     },
   },
   {
@@ -28,6 +30,7 @@
     runtime: 110,
     rating: {
       average: 8.9,
+      dislikes: 1,
     },
   },
 ];
@@ -126,6 +129,14 @@ db.movies.find({
 ```js
 // option === i is for ignore case
 db.movies.find({ 'details.genres': { $regex: 'act', $option: 'i' } });
+```
+
+#### To find the movies list who's dislikes are more than rating
+
+_$expr is used to compare two fields within the document and while it is used, it is written first unlike other operators_
+
+```js
+db.movies.find({ $expr: { $gt: ['$rating.dislikes', 'rating.average'] } });
 ```
 
 src: https://docs.mongodb.com/manual/reference/operator/query/
