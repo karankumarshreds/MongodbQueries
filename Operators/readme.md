@@ -72,6 +72,66 @@ db.movies.find({
 });
 ```
 
+```js
+{
+        "_id" : ObjectId("602d83bdda2d64cb53265b7c"),
+        "name" : "Max",
+        "hobbies" : [
+                {
+                        "title" : "Sports",
+                        "frequency" : 3
+                },
+                {
+                        "title" : "Cooking",
+                        "frequency" : 6
+                }
+        ],
+        "phone" : 131782734
+},
+{
+        "_id" : ObjectId("602d83bdda2d64cb53265b7c"),
+        "name" : "Max",
+        "hobbies" : [
+                {
+                        "title" : "Sports",
+                        "frequency" : 2
+                },
+                {
+                        "title" : "Cooking",
+                        "frequency" : 6
+                }
+        ],
+        "phone" : 131782734
+},
+{
+        "_id" : ObjectId("602d83bdda2d64cb53265b7c"),
+        "name" : "Max",
+        "hobbies" : [
+                {
+                        "title" : "Sports",
+                        "frequency" : 6
+                },
+                {
+                        "title" : "Cooking",
+                        "frequency" : 6
+                }
+        ],
+        "phone" : 131782734
+}
+```
+
+Find the users who's hobbies have title "Sports" _and_ that same field has frequency: _gte 3_
+
+**NOTE** : _You can use $and BUT that will not query on the same field_
+
+```js
+db.users.find({
+  hobbies: {
+    $elemMatch: { $and: [{ title: 'Sports' }, { frequency: { $gte: 3 } }] },
+  },
+});
+```
+
 ## $in or $nin
 
 #### To find movies who's runtime is either 60 or 90
