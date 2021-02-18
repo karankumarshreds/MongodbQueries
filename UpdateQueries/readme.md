@@ -74,3 +74,15 @@ db.persons.updateOne(
   }
 );
 ```
+
+**NOTE**: Use `$inc : { age: -1 }` to decrement.
+
+## $min $max and $mul
+
+Find the document by the name of Max and set the age to 40 _if existing age is LESS THAN 40_ otherwise do nothing.
+
+`db.users.updateOne({ name: "Max" }, { $min: { age: 40 } })` // this means keep the lower value
+
+Find the document by the name of Max and set the age to 40 _if existing age is MORE THAN 40_ otherwise do nothing.
+
+`db.users.findOne({ name: "Max", ${ $max: : { age: 40 } } })` // this means keep the higher value
