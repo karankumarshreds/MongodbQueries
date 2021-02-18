@@ -85,4 +85,8 @@ Find the document by the name of Max and set the age to 40 _if existing age is L
 
 Find the document by the name of Max and set the age to 40 _if existing age is MORE THAN 40_ otherwise do nothing.
 
-`db.users.findOne({ name: "Max", ${ $max: : { age: 40 } } })` // this means keep the higher value
+`db.users.findOne({ name: "Max", { $max: : { age: 40 } } })` // this means keep the higher value
+
+Find the document by the name of Max and set the age to _DOUBLE_
+
+`db.users.findOne({ name: "Max", { $mul: : { age: 2 } } })`
