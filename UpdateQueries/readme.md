@@ -18,10 +18,12 @@
 }
 ```
 
+## updateOne
+
 ```js
 db.persons.updateOne(
   {
-    name: 'Max',
+    name: 'Max', // filter
   },
   {
     $set: {
@@ -36,6 +38,39 @@ db.persons.updateOne(
         },
       ],
     },
+  }
+);
+```
+
+## updateMany
+
+Find all the documents who's name is Max and add a new attribute `isSporty: true`.
+
+```js
+db.persons.updateMany(
+  {
+    name: 'Max',
+  },
+  {
+    $set: {
+      isSporty: true,
+    },
+  }
+);
+```
+
+## $inc
+
+Find the document by the name Max, increment the age by 1 and set the name to Maxwell
+
+```js
+db.persons.updateOne(
+  {
+    name: 'Max',
+  },
+  {
+    $inc: { age: 1 },
+    $set: { name: 'Maxwell' },
   }
 );
 ```
