@@ -90,3 +90,7 @@ Find the document by the name of Max and set the age to 40 _if existing age is M
 Find the document by the name of Max and set the age to _DOUBLE_
 
 `db.users.findOne({ name: "Max", { $mul: : { age: 2 } } })`
+
+## Drop or delete a specific field from a document ( $unset )
+
+`db.users.findOne({ name: "Max", { $unset: { age: "" } } })`
