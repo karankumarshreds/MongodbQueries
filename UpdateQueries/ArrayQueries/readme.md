@@ -145,3 +145,23 @@ db.updateMany(
   { arrayFilters: [{ 'el.frequency': { $gt: 2 } }] } // setting it on particular elements inside the array
 );
 ```
+
+**updated to**
+
+```js
+{
+        "_id" : ObjectId("6036953aec9d2a3612452bae"), "name" : "Max",
+        "hobbies" : [{ "title" : "Sports", "frequency" : 20 }, { "title" : "Cooking", "frequency" : 16 }],
+        "phone" : 131782734
+}
+{
+        "_id" : ObjectId("6036953aec9d2a3612452baf"), "name" : "Manuel",
+        "hobbies" : [{ "title" : "Cooking", "frequency" : 15 }, { "title" : "Cars", "frequency" : 2 }],
+        "phone" : "012177972",
+}
+{
+        "_id" : ObjectId("6036953aec9d2a3612452bb0"), "name" : "Anna",
+        "hobbies" : [{ "title" : "Sports", "frequency" : 20 }, { "title" : "Yoga", "frequency" : 22 }],
+        "phone" : "80811987291",
+}
+```
