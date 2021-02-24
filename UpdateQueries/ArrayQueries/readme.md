@@ -196,3 +196,37 @@ db.users.updateOne(
   }
 );
 ```
+
+You can add **$sort** to sort the entire array whilst pushing an element to it:
+
+```js
+db.users.updateOne(
+  { name: 'Max' },
+  {
+    $push: {
+      hobbies: {
+        $each: [
+          { title: 'Swimming', frequency: 3 },
+          { title: 'Hiking', frequency: 5 },
+        ],
+        $sort: { frequency: -1 },
+      },
+    },
+  }
+);
+```
+
+## Remove element from the array field inside the document using ==> $pull <==
+
+Remove the Hiking hobby from the array field
+
+```js
+db.users.updateOne(
+  { name: 'Max' },
+  {
+    $pull: { hobbies: { title: 'Hiking' } },
+  }
+);
+```
+
+**NOTE** : You cannot use `$pull: { "hobbies.title": 'Hiking' } }` to traverse the element.
