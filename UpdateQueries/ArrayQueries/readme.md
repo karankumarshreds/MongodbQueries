@@ -165,3 +165,14 @@ db.updateMany(
         "phone" : "80811987291",
 }
 ```
+
+## Add element to an array field inside the document using ==> $push <==
+
+Find the person with name Max and add another hobby to its hobby array field
+
+```js
+db.users.updateOne(
+        { name: "Max" },
+        { $push: { hobbies: { title: "Swimming", frequency: 3 } } }
+)
+```
