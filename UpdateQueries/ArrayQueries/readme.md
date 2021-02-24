@@ -48,7 +48,7 @@ Dataset:
 }
 ```
 
-## Update single element in an array using ==> $ <==
+## Update single element(FIRST MATCH) in an array using ==> $ <==
 
 Find the users who's hobbies have title "Sports" _and_ that same field has frequency: _gte 3_ **AND SET THEIR FREQUENCY TO 10**
 
@@ -59,7 +59,7 @@ db.users.updateMany(
   { hobbies: { $elemMatch: { title: 'Sports', frequency: { $gte: 3 } } } }, // elemMatch refers to the exact field on the document
   {
     $set: {
-      'hobbies.$.frequency': 10, // $ refers to the exact array element of the filtered document
+      'hobbies.$.frequency': 10, // $ refers to the exact(FIRST MATCHED ELEMENT) array element of the filtered document
     },
   }
 );
@@ -107,5 +107,41 @@ db.users.updateMany(
   {
     $inc: { 'hobbies.$[].frequency': +20 }, // $[] targets all the elements in the array
   }
+);
+```
+
+## Update multiple elements in an array using ==> $[el] <==
+
+Find all the people who's hobbies frequency are greater than 2 (NOTE: it may also return docs/people who have some hobbies who's frequency is less than 2 ). Now update all their hobbies frequencies who's frequency is greater than 3 to +10.
+
+**Note**: The idea is to find docs with frequencies > 2 and update only those elements. You cannot use $ because it only updates first matched element and neither $[] as it updates all.
+
+**dataset**
+
+```js
+{
+        "_id" : ObjectId("6036953aec9d2a3612452bae"), "name" : "Max",
+        "hobbies" : [{ "title" : "Sports", "frequency" : 10 }, { "title" : "Cooking", "frequency" : 6 }],
+        "phone" : 131782734
+}
+{
+        "_id" : ObjectId("6036953aec9d2a3612452baf"), "name" : "Manuel",
+        "hobbies" : [{ "title" : "Cooking", "frequency" : 5 }, { "title" : "Cars", "frequency" : 2 }],
+        "phone" : "012177972",
+}
+{
+        "_id" : ObjectId("6036953aec9d2a3612452bb0"), "name" : "Anna",
+        "hobbies" : [{ "title" : "Sports", "frequency" : 10 }, { "title" : "Yoga", "frequency" : 12 }],
+        "phone" : "80811987291",
+}
+```
+
+**This will take 3 arguments**
+
+```js
+db.updateMany(
+  { 'hobbies.frequency': { $gt: 2 } }, // filter
+  { $inc: { 'hobbies.$[el].frequency': +10 } }, // setting the values (not saving yet)
+  { arrayFilters: [{ 'el.frequency': { $gt: 2 } }] } // setting it on particular elements inside the array
 );
 ```
