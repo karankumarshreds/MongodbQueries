@@ -172,7 +172,27 @@ Find the person with name Max and add another hobby to its hobby array field
 
 ```js
 db.users.updateOne(
-        { name: "Max" },
-        { $push: { hobbies: { title: "Swimming", frequency: 3 } } }
-)
+  { name: 'Max' },
+  { $push: { hobbies: { title: 'Swimming', frequency: 3 } } }
+);
+```
+
+## Add multiple elements to array field inside the document using => $push w/ $each <==
+
+Find the person with name Max and add two hobbies to the hobbies array field
+
+```js
+db.users.updateOne(
+  { name: 'Max' },
+  {
+    $push: {
+      hobbies: {
+        $each: [
+          { title: 'Swimming', frequency: 3 },
+          { title: 'Hiking', frequency: 5 },
+        ],
+      },
+    },
+  }
+);
 ```
