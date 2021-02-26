@@ -142,7 +142,7 @@ Find all the people who's hobbies frequency are greater than 2 (NOTE: it may als
 db.updateMany(
   { 'hobbies.frequency': { $gt: 2 } }, // filter
   { $inc: { 'hobbies.$[el].frequency': +10 } }, // setting the values (not saving yet)
-  { arrayFilters: [{ 'el.frequency': { $gt: 2 } }] } // setting it on particular elements inside the array
+  { arrayFilters: [{ 'el.frequency': { $gt: 2 } }] } // setting it(condition) on particular elements inside the array
 );
 ```
 
@@ -171,10 +171,7 @@ db.updateMany(
 Find the person with name Max and add another hobby to its hobby array field
 
 ```js
-db.users.updateOne(
-  { name: 'Max' },
-  { $push: { hobbies: { title: 'Swimming', frequency: 3 } } }
-);
+db.users.updateOne({ name: 'Max' }, { $push: { hobbies: { title: 'Swimming', frequency: 3 } } });
 ```
 
 ## Add multiple elements to array field inside the document using => $push w/ $each <==
@@ -230,3 +227,25 @@ db.users.updateOne(
 ```
 
 **NOTE** : You cannot use `$pull: { "hobbies.title": 'Hiking' } }` to traverse the element.
+
+## Remove multiple elements from the array field inside the document using ==> $pull <==
+
+Dataset:
+
+```js
+{
+    "_id" : ObjectId("6036953aec9d2a3612452bae"), "name" : "Chris",
+    "friends" : [
+                  { "name" : "xyz", "age" : 23 }, // delete
+                  { "name" : "xyz", "age" : 34 }, // delete
+                  { "name" : "abc", "age" : 18 },
+                  { "name" : "pqr", "age" : 27 }  // delete
+                ],
+}
+```
+
+Solution:
+
+```js
+db.users.updateOne({ name: 'Chris' }, { $pull: { friends: { name: { $in: ['xyz', 'pqr'] } } } });
+```
