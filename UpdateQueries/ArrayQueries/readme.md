@@ -249,3 +249,26 @@ Solution:
 ```js
 db.users.updateOne({ name: 'Chris' }, { $pull: { friends: { name: { $in: ['xyz', 'pqr'] } } } });
 ```
+
+## Remove multiple elements from the array field inside the document using ==> $pullAll <==
+
+#### NOTE: This won't work well with array of documents (use above example for that)
+
+Dataset:
+
+```js
+{ _id: 1, scores: [ 0, 2, 5, 5, 1, 0 ] }
+```
+
+Solution:
+
+```js
+db.survey.update({ _id: 1 }, { $pullAll: { scores: [0, 5] } });
+```
+
+Updated dataset:
+
+```js
+{ "_id" : 1, "scores" : [ 2, 1 ] }
+
+```
