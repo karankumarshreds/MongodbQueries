@@ -35,5 +35,11 @@
 Let us say we need to create an index on **age**
 
 ```js
-db.contacts.createIndex({ "dob.age" })
+/*
+ *  1    ==    ascending ordered index
+ * -1    ==    descending ordered index
+ * The speed doesn't depend on the sort much
+ * because mongo can find the document from either direction
+ */
+db.contacts.createIndex({ 'dob.age': 1 });
 ```
