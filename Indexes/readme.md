@@ -49,3 +49,8 @@ Let us say we need to create an index on **age**
  */
 db.contacts.createIndex({ 'dob.age': 1 });
 ```
+
+**EXPLAINATION** :
+
+Index scans (index stage) does not return the documents. They return the pointers to the documents.
+Later on, the _fetch stage_ reach out to the actual document using that pointer.
