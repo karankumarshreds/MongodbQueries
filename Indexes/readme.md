@@ -72,3 +72,11 @@ So our database had to cover 90% of the indexes and returns all the pointers = p
 
 The point is, you should not be using indexes for the queries which return a gigantic number of documents.
 _Rather, use indexes for fields which are usually unique and return less amount of documents_
+
+## Deleting index
+
+To delete the index:
+
+```js
+db.contacts.dropIndex({ 'dob.age': 1 });
+```
