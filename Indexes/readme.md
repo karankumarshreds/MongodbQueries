@@ -30,6 +30,12 @@
 }
 ```
 
+**To check the speed of your search query analysis**:
+
+```js
+db.contacts.explain('executionStats').find({ 'dob.age': { $gt: 60 } });
+```
+
 ## Creating index
 
 Let us say we need to create an index on **age**
