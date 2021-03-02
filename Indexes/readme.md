@@ -116,3 +116,7 @@ Query3 (WRONG this won't use index)
 // if you move left to right, you have to include the left ones
 db.users.find({ gender: 'male' });
 ```
+
+## Sorting using Indexes
+
+In case you need large amount of data to be sorted using a specific field in the document on a regular basis, you should use indexing for that partifcular field because it helps the response time by ALOT as the db wouldn't have to sort the returned data for you. This is because indexes are already sorted.
