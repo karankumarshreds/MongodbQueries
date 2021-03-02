@@ -87,16 +87,32 @@ db.contacts.dropIndex({ 'dob.age': 1 });
 This is used to create indexes using two fields in your collection:
 
 ```js
+// can be used together or from left -> right (see examples)
 db.users.createIndex({ 'dob.age': 1, gender: 1 });
 ```
 
 This would create an index field something like: `33 male`.
 
-Now using this:
+### Examples
 
 Query1 (good query for indexes):
 
 ```js
 // order does not matter (can be different from that of index)
 db.users.find({ 'dob.age': 35, gender: 'male' });
+```
+
+Query2 (also fine `left to right`):
+
+```js
+// this will also use same index
+db.users.find({ 'dob.age': 35 });
+```
+
+Query3 (WRONG this won't use index)
+
+```js
+// query is right but it won't make use of index
+// if you move left to right, you have to include the left ones
+db.users.find({ gender: 'male' });
 ```
