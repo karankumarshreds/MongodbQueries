@@ -82,6 +82,16 @@ To delete the index:
 db.contacts.dropIndex({ 'dob.age': 1 });
 ```
 
+_\_id field has a default indexed_
+
+## Getting indexes
+
+To find all the existing indexes on a collection:
+
+```js
+db.contacts.getIndexes();
+```
+
 ## Creating COMPOUND INDEXES
 
 This is used to create indexes using two fields in your collection:
