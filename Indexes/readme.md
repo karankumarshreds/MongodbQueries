@@ -92,6 +92,14 @@ To find all the existing indexes on a collection:
 db.contacts.getIndexes();
 ```
 
+## Creating Unique Index
+
+Mongo has \_id as default index since it is unique. Let us say we have collection of users who's email IDs are ALWAYS unique **AND** you want to query user using email field **frequently**, then you can create a new unique index like:
+
+```js
+db.users.createIndex({ email: 1 }, { unique: true });
+```
+
 ## Creating COMPOUND INDEXES
 
 This is used to create indexes using two fields in your collection:
