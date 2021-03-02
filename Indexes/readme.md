@@ -67,6 +67,7 @@ db.contacts.find({ 'dob.age': { $gt: 10 } });
 _This execution will actually be slower than the one WITHOUT INDEXING_.
 
 _WHY IS THAT?_
+
 This is because `age > 10` covers 90% of the documents inside of the database.
 So our database had to cover 90% of the indexes and returns all the pointers = pointing to their respective databases. And further, it took time to fetch those documents for us, so it actually was slow.
 
@@ -79,4 +80,23 @@ To delete the index:
 
 ```js
 db.contacts.dropIndex({ 'dob.age': 1 });
+```
+
+## Creating COMPOUND INDEXES
+
+This is used to create indexes using two fields in your collection:
+
+```js
+db.users.createIndex({ 'dob.age': 1, gender: 1 });
+```
+
+This would create an index field something like: `33 male`.
+
+Now using this:
+
+Query1 (good query for indexes):
+
+```js
+// order does not matter (can be different from that of index)
+db.users.find({ 'dob.age': 35, gender: 'male' });
 ```
