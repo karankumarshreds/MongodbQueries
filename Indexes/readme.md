@@ -157,3 +157,31 @@ db.users.createIndex(
   { partialFilterExpression: { 'hobbies.frequency': { $gt: 6 } } } // where
 );
 ```
+
+**NOTE:** : _to use this index, you will have to include exact indexes while querying. This won't work like compound indexes(left -> right). This is because, if mongo does that, since the indexes are partial, you might end up skipping returned data. HMMMMM....? Here, what if the the qeury satisfies the documents on which there is no indexing?_
+
+Further explaination:
+
+Let us consider the partial indexing:
+
+```js
+db.users.createIndex({ 'dob.age': 1 }, { partialFilterExpression: { gender: 'male' } });
+```
+
+This create indexes ONLY FOR MALES:
+
+Now if you query for people older than 60:
+
+```js
+db.users.find({ 'dob.age': 60 });
+```
+
+This^^ will NOT run IndexScan, BECAUSE what if we have users who are women and are > 60 age? And if we were to use index for scanning, it would have skipped those documents.
+
+_Therefore, mongo will run a collection scan_
+
+**The best way to use this index would be:**
+
+```js
+db.users.find({ 'db.age': 60, gender: 'male' });
+```
