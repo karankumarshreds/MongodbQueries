@@ -138,3 +138,22 @@ db.users.find({ gender: 'male' });
 ## Sorting using Indexes
 
 In case you need large amount of data to be sorted using a specific field in the document on a regular basis, you should use indexing for that partifcular field because it helps the response time by ALOT as the db wouldn't have to sort the returned data for you. This is because indexes are already sorted.
+
+## PARTIAL FILTERS
+
+Let us say you create indexes on age BUT you use the age query only for the gener male everytime in the users collection.
+
+So, there is no point of making index on the whole collection. This is what you would do:
+
+```js
+db.users.createIndex({ 'age.dob': 1 }, { partialFilterExpression: { gender: 'male' } });
+```
+
+You could also do something like :
+
+```js
+db.users.createIndex(
+  { 'age.dob': 1 },
+  { partialFilterExpression: { 'hobbies.frequency': { $gt: 6 } } } // where
+);
+```
