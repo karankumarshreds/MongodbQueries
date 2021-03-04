@@ -186,7 +186,7 @@ _Therefore, mongo will run a collection scan_
 db.users.find({ 'db.age': 60, gender: 'male' });
 ```
 
-## TEXT INDEXES
+## TEXT INDEXES (usually used for search functionality)
 
 Dataset:
 
@@ -204,4 +204,20 @@ Command:
 db.products.createIndex({ description: 'text' });
 ```
 
+The collection must have ONLY ONE TEXT INDEX since it is very expensive.
+
 This will create an ARRAY of index with the words `awesome`, `book`, `must`, `buy` etc and ignore the rest of the generic words for us.
+
+**Search Query**
+
+```js
+db.products.find({ $text: { $search: 'awesome' } });
+```
+
+Let us say we want documents with specificly `awesome book` as a single word:
+
+```js
+db.products.find({ $text: { $search: '"awesome book"' } });
+```
+
+This will only return if the description has "awesome book" as a phrase.
