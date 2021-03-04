@@ -214,6 +214,11 @@ This will create an ARRAY of index with the words `awesome`, `book`, `must`, `bu
 db.products.find({ $text: { $search: 'awesome' } });
 ```
 
+```js
+// this will return all the documents with the words 'awesome' and 'book'
+db.products.find({ $text: { $search: 'awesome book' } });
+```
+
 Let us say we want documents with specificly `awesome book` as a single word:
 
 ```js
@@ -221,3 +226,32 @@ db.products.find({ $text: { $search: '"awesome book"' } });
 ```
 
 This will only return if the description has "awesome book" as a phrase.
+
+### SORT TEXT INDEXES RESULTS BASED ON EXACT MATCH (SCORE)
+
+Dataset:
+
+```js
+[
+  {
+    title: 'Red T-Shirt',
+    description: 'This T-shirt is read and is awesome',
+  },
+  {
+    title: 'A Book',
+    description: 'This is an awesome book about a young artist',
+  },
+];
+```
+
+Let us search for "awesome t-shirt" (_which will return both the docs as they both have either of the words_).
+But I want it to sort it based on the **most accurate match**.
+
+_SOLUTION_
+
+```js
+db.products.find(
+  { $text: { $search: ' awesome book ' } },
+  { score: { $meta: 'textScore' } } // this sorts it
+);
+```
