@@ -185,3 +185,23 @@ _Therefore, mongo will run a collection scan_
 ```js
 db.users.find({ 'db.age': 60, gender: 'male' });
 ```
+
+## TEXT INDEXES
+
+Dataset:
+
+```js
+{
+        title: "Book1",
+        description: "This is an awesome book and is a must buy"
+}
+```
+
+Command:
+
+```js
+// use the word 'text' instead of 1/-1
+db.products.createIndex({ description: 'text' });
+```
+
+This will create an ARRAY of index with the words `awesome`, `book`, `must`, `buy` etc and ignore the rest of the generic words for us.
