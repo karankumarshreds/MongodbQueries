@@ -133,3 +133,25 @@ db.contacts.aggregate([
   { $sort: { totalPersons: -1 } }, // stage3
 ]);
 ```
+
+<hr />
+
+## Project stage
+
+Helps us transform the returning documents:
+
+**QUESTION**
+
+Let us say we want to:
+
+- Get all the docs with age > 20
+- I don't want IDS to show
+- I only want their genders to show
+- I want a new field "fullName" with their first and last names concatinated
+
+```js
+db.contacts.aggregate([
+  { $match: { 'dob.age': { $gt: 20 } } },
+  { $project: { _id: 0, gender: 1, fullName: { $concat: ['$name.first', ' ', '$name.last'] } } },
+]);
+```
