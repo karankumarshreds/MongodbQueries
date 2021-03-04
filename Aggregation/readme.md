@@ -62,6 +62,10 @@ Aggregation basically groups the data from multiple documents and operates in ma
 
 Unlike Refs/Populate, aggregation runs the query on the server side (mongodb) and returns the processed documents.
 
+It works with STAGES:
+
+`STAGE1` ==(altered_data)==> `STAGE2` ==(altered_data)==> `STAGE3`
+
 Also, _it works perfectly with indexes similar to how "find works"_.
 
 Query:
