@@ -255,3 +255,11 @@ db.products.find(
   { score: { $meta: 'textScore' } } // this sorts it
 );
 ```
+
+We can further change the order of sorting:
+
+```js
+db.products
+  .find({ $text: { $search: 'awesome book' } }, { score: { $meta: 'textScore' } })
+  .sort({ score: -1 }); // here
+```
