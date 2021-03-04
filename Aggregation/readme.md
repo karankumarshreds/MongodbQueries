@@ -95,7 +95,7 @@ db.contacts.aggregate([
 ]);
 ```
 
-Retreive Data:
+Retreived Data:
 
 ```js
 { "_id" : { "stateName" : "hautes-alpes" }, "totalPeople" : 2 }
@@ -118,4 +118,14 @@ Retreive Data:
 { "_id" : { "stateName" : "arizona" }, "totalPeople" : 4 }
 { "_id" : { "stateName" : "dordogne" }, "totalPeople" : 1 }
 { "_id" : { "stateName" : "bingöl" }, "totalPeople" : 2 }
+```
+
+Let us try and sorting the above result:
+
+```js
+db.contacts.aggregate([
+  { $match: { gender: 'female' } }, // stage1
+  { $group: { _id: { state: '$location.state' }, totalPersons: { $sum: 1 } } }, // stage2
+  { $sort: { totalPersons: -1 } }, // stage3
+]);
 ```
