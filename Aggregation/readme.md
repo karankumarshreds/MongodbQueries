@@ -168,7 +168,36 @@ db.contacts.aggregate([
                         " ",
                         { $toUpper: { "$name.last" } }
                 ]
-            }
+           ` }
         }}
+]);
+```
+
+Let us say, we want only the first alphabets to be in the uppercase.
+
+```js
+db.contacts.aggregate([
+  { $match: { 'dob.age': { $gt: 20 } } },
+  {
+    $project: {
+      _id: 0,
+      gender: 1,
+      fullName: {
+        $concat: [
+          { $toUpper: { $substrCP: ['$name.first', 0, 1] } },
+          {
+            $substrCP: [
+              '$name.first',
+              1, // start cutting from first index
+              { $subtract: [{ $strLenCP: '$name.first' }, 1] }, // until length -1
+            ],
+          },
+          ' ',
+          { $toUpper: { $substrCP: ['$name.last', 0, 1] } },
+          { $substrCP: ['$name.last', 1, { $subtract: [{ $strLenCP: '$name.first' }, 1] }] },
+        ],
+      },
+    },
+  },
 ]);
 ```
