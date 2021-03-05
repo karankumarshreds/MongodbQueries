@@ -245,3 +245,45 @@ Returned documents:
   },
 ];
 ```
+
+Same example as above, but this time we want the coordinates to be in integes:
+
+```js
+db.contacts.aggregate([
+  {
+    $project: {
+      _id: 0,
+      name: 1,
+      location: {
+        random: 'field',
+        coordinates: [
+          {
+            $convert: {
+              input: '$location.coordinates.longitude',
+              to: 'double',
+              onError: 0.0,
+              onNull: 0,
+            },
+          },
+          {
+            $convert: {
+              input: '$location.coordinates.latitude',
+              to: 'double',
+              onError: 0.0,
+              onNull: 0,
+            },
+          },
+        ],
+      },
+    },
+  },
+  {
+    $project: {
+      location: 1,
+      fullName: {
+        $concat: ['$name.first', ' ', '$name.last'],
+      },
+    },
+  },
+]);
+```
