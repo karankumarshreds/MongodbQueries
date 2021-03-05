@@ -155,3 +155,20 @@ db.contacts.aggregate([
   { $project: { _id: 0, gender: 1, fullName: { $concat: ['$name.first', ' ', '$name.last'] } } },
 ]);
 ```
+
+```javascript
+db.contacts.aggregate([
+        {$match: {'dob.age': {$gt: 20}}},
+        {$project: {
+            _id: 0,
+            gender: 1,
+            fullName: {
+                $concat: [
+                        { $toUpper: { "$name.first" } },
+                        " ",
+                        { $toUpper: { "$name.last" } }
+                ]
+            }
+        }}
+]);
+```
