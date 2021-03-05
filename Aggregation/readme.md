@@ -201,3 +201,47 @@ db.contacts.aggregate([
   },
 ]);
 ```
+
+## Multi stage PROJECT
+
+```js
+db.contacts.aggregate([
+  {
+    $project: {
+      _id: 0,
+      name: 1,
+      email: 1, // make sure you inherit fields at every stage to show them
+      location: {
+        random: 'field',
+        coordinates: ['$location.coordinates.longitude', '$location.coordinates.latitude'],
+      },
+    },
+  },
+  {
+    $project: {
+      location: 1,
+      email: 1, // make sure you iherit field
+      fullName: {
+        $concat: ['$name.first', ' ', '$name.last'],
+      },
+    },
+  },
+]);
+```
+
+Returned documents:
+
+```js
+[
+  {
+    location: { random: 'field', coordinates: ['101.5995', '78.8545'] },
+    email: 'isolino.viana@example.com',
+    fullName: 'isolino viana',
+  },
+  {
+    location: { random: 'field', coordinates: ['-18.5996', '-42.6128'] },
+    email: 'elijah.lewis@example.com',
+    fullName: 'elijah lewis',
+  },
+];
+```
