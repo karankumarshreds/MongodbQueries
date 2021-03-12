@@ -326,3 +326,22 @@ db.contacts.aggregate([
 { "name" : "harvey chambers", "birthdate" : ISODate("1988-05-27T00:14:03Z") }
 { "name" : "victor pedersen", "birthdate" : ISODate("1959-02-19T23:56:23Z") }
 ```
+
+**SHORTCUT**:
+
+```js
+db.contacts.aggregate([
+  {
+    $match: { 'dob.age': { $gt: 25 } },
+  },
+  {
+    $project: {
+      _id: 0,
+      name: {
+        $concat: ['$name.first', ' ', '$name.last'],
+      },
+      birthdate: { $toDate: '$dob.date' }, // toDate is another aggregate operator
+    },
+  },
+]);
+```
