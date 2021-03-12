@@ -246,7 +246,7 @@ Returned documents:
 ];
 ```
 
-Same example as above, but this time we want the coordinates to be in integes:
+Same example as above, but this time we want the coordinates to be in integers:
 
 ```js
 db.contacts.aggregate([
@@ -261,8 +261,8 @@ db.contacts.aggregate([
             $convert: {
               input: '$location.coordinates.longitude',
               to: 'double',
-              onError: 0.0,
-              onNull: 0,
+              onError: 0.0, // in case some error occurs, return as 0.0
+              onNull: 0, // in case its null, return 0.0
             },
           },
           {
@@ -282,6 +282,36 @@ db.contacts.aggregate([
       location: 1,
       fullName: {
         $concat: ['$name.first', ' ', '$name.last'],
+      },
+    },
+  },
+]);
+```
+
+<hr />
+
+**question**:
+
+I want the collection of all the users who's age is greater than 25 and print their names and their _dob.date_ to _generic date type_.
+
+```js
+db.contacts.aggregate([
+  {
+    $match: { 'dob.age': { $gt: 25 } },
+  },
+  {
+    $project: {
+      _id: 0,
+      name: {
+        $concat: ['$name.first', ' ', '$name.last'],
+      },
+      birthdate: {
+        $convert: {
+          input: '$dob.date',
+          to: 'date', // predefined mongo date type
+          onError: 0.0,
+          onNull: 0,
+        },
       },
     },
   },
