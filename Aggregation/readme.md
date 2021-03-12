@@ -317,3 +317,12 @@ db.contacts.aggregate([
   },
 ]);
 ```
+
+**Result**
+
+```js
+{ "name" : "zachary lo", "birthdate" : ISODate("1988-10-17T03:45:04Z") }
+{ "name" : "louise graham", "birthdate" : ISODate("1971-01-21T20:36:16Z") }
+{ "name" : "harvey chambers", "birthdate" : ISODate("1988-05-27T00:14:03Z") }
+{ "name" : "victor pedersen", "birthdate" : ISODate("1959-02-19T23:56:23Z") }
+```
