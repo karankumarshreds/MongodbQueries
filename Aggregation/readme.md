@@ -345,3 +345,95 @@ db.contacts.aggregate([
   },
 ]);
 ```
+
+
+## DATASET (ADVANCE)
+
+```js
+[
+  {
+    "projectName": "first",
+    "resources": [
+      {
+        "resource": "EC2",
+        "region": "ap-south-1",
+        "params": {
+          "ImageId": "ami-0bcf5425cdc1d8a85",
+          "InstanceType": "t2.micro"
+        }
+      },
+      {
+        "resource": "S3",
+        "region": "ap-south-1",
+        "params": {
+          "Bucket": "test-bucket"
+        }
+      }
+    ]
+  }
+]
+```
+ I want to find out the documents who's resources array have 'EC2' and print out ONLY that element from the array.
+ 
+ __Solution__
+ 
+ ```js
+ const resources = await Project.aggregate([
+      {
+        $match: {
+          resources: {
+            $elemMatch: {
+              resource: { $eq: resourceType },
+            },
+          },
+        },
+      },
+      {
+        $project: {
+          projectName: '$projectName',
+          createdAt: '$createdAt',
+          resources: {
+            $filter: {
+              input: '$resources',
+              as: 'each', // use $$ to refer
+              cond: { $eq: ['$$each.resource', 'EC2'] },
+            },
+          },
+        },
+      },
+    ]);
+ ```
+
+
+OR 
+
+- $filter to iterate loop of resources array and find matching resource
+
+- $arrayElemAt to get first matching element from above filtered result
+
+- $replaceRoot to replace above return object to root
+
+```js
+const projects = await Project.aggregate([
+
+  { $match: { resources: { $elemMatch: { resource: { $eq: "EC2" } } } } },
+  // or below match is equal to above match condition
+  // { $match: { "resources.resource": "EC2" } },
+
+  {
+    $replaceRoot: {
+      newRoot: {
+        $arrayElemAt: [
+          {
+            $filter: {
+              input: "$resources",
+              cond: { $eq: ["$$this.resource", "EC2"] }
+            }
+          },
+          0
+        ]
+      }
+    }
+  }
+])
+```
